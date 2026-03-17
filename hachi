@@ -1,0 +1,36 @@
+import numpy as np
+
+# Sample sentences
+samples = {
+    'Jupiter has 79 known moons .',
+    'Neptune has 14 confirmed moons !'
+}
+
+# Create token index
+token_index = {}
+counter = 0
+
+for sample in samples:
+    for word in sample.split():
+        if word not in token_index:
+            counter += 1
+            token_index[word] = counter
+
+print("Token Index:")
+print(token_index)
+
+# Maximum sentence length
+max_length = 6
+
+# Create zero tensor
+results = np.zeros((len(samples), max_length, max(token_index.values()) + 1))
+
+# One-hot encoding
+for i, sample in enumerate(samples):
+    for j, word in enumerate(sample.split()):
+        if j < max_length:
+            index = token_index[word]
+            results[i, j, index] = 1
+
+print("\nOne-Hot Encoded Tensor:")
+print(results)
